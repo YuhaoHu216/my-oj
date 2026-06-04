@@ -4,12 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import space.huyuhao.myagent.context.UserContext;
-import space.huyuhao.myagent.dto.ResponseResult;
-import space.huyuhao.myagent.dto.UserInfoDto;
-import space.huyuhao.myagent.dto.UserLoginDto;
-import space.huyuhao.myagent.dto.UserRegisterDto;
-import space.huyuhao.myagent.service.UserService;
+import space.huyuhao.myoj.context.UserContext;
+import space.huyuhao.myoj.service.UserService;
+import space.huyuhao.myoj.common.ResponseResult;
+import space.huyuhao.myoj.dto.UserInfoDto;
+import space.huyuhao.myoj.dto.UserLoginDto;
+import space.huyuhao.myoj.dto.UserRegisterDto;
 
 @RestController
 @RequestMapping("/user")

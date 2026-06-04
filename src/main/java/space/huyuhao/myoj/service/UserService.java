@@ -1,10 +1,11 @@
-package space.huyuhao.myagent.service;
+package space.huyuhao.myoj.service;
 
-import space.huyuhao.myagent.dto.ResponseResult;
-import space.huyuhao.myagent.dto.UserInfoDto;
-import space.huyuhao.myagent.dto.UserLoginDto;
-import space.huyuhao.myagent.dto.UserRegisterDto;
-import space.huyuhao.myagent.entity.User;
+
+import space.huyuhao.myoj.common.ResponseResult;
+import space.huyuhao.myoj.dto.UserInfoDto;
+import space.huyuhao.myoj.dto.UserLoginDto;
+import space.huyuhao.myoj.dto.UserRegisterDto;
+import space.huyuhao.myoj.entity.User;
 
 public interface UserService {
     ResponseResult<String> register(UserRegisterDto userRegisterDto);

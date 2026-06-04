@@ -2,7 +2,7 @@ package space.huyuhao.myoj.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import space.huyuhao.myagent.entity.User;
+import space.huyuhao.myoj.entity.User;
 
 @Mapper
 public interface UserMapper extends BaseMapper<User> {

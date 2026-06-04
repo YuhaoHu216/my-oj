@@ -5,15 +5,17 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import space.huyuhao.myagent.constant.UserConstants;
-import space.huyuhao.myagent.dto.ResponseResult;
-import space.huyuhao.myagent.dto.UserInfoDto;
-import space.huyuhao.myagent.dto.UserLoginDto;
-import space.huyuhao.myagent.dto.UserRegisterDto;
-import space.huyuhao.myagent.entity.User;
-import space.huyuhao.myagent.mapper.UserMapper;
-import space.huyuhao.myagent.service.UserService;
-import space.huyuhao.myagent.util.JwtUtil;
+
+import space.huyuhao.myoj.common.ResponseResult;
+import space.huyuhao.myoj.constant.UserConstants;
+import space.huyuhao.myoj.dto.UserInfoDto;
+import space.huyuhao.myoj.dto.UserLoginDto;
+import space.huyuhao.myoj.dto.UserRegisterDto;
+import space.huyuhao.myoj.entity.User;
+import space.huyuhao.myoj.service.UserService;
+import space.huyuhao.myoj.mapper.UserMapper;
+import space.huyuhao.myoj.util.JwtUtil;
+
 
 import java.time.LocalDateTime;
 
