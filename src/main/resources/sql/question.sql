@@ -1,3 +1,7 @@
+CREATE DATABASE IF NOT EXISTS my_oj CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE my_oj;
+
 -- 题目表
 create table if not exists question
 (
