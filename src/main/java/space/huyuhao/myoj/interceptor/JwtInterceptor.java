@@ -1,0 +1,46 @@
+package space.huyuhao.myoj.interceptor;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import space.huyuhao.myoj.context.UserContext;
+import space.huyuhao.myoj.util.JwtUtil;
+
+@Component
+public class JwtInterceptor implements HandlerInterceptor {
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // 获取请求头中的token
+        String token = request.getHeader("Authorization");
+
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7); // 去掉 "Bearer " 前缀
+        } else {
+            // 如果没有token，则检查参数中是否有token
+            token = request.getParameter("token");
+        }
+
+        if (token != null && jwtUtil.validateToken(token)) {
+            // 验证通过，将用户信息存入ThreadLocal供后续使用
+            UserContext.setUserId(jwtUtil.getUserIdFromToken(token));
+            UserContext.setUsername(jwtUtil.getUsernameFromToken(token));
+            return true;
+        } else {
+            // 验证失败，返回401
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("{\"code\":401,\"message\":\"Unauthorized\"}");
+            return false;
+        }
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+        UserContext.clear();
+    }
+}
