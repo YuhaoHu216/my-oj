@@ -45,3 +45,4 @@ logs/
 *.bak
 *.swp
 *~
+.codegraph/
