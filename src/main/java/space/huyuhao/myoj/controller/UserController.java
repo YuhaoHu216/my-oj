@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import space.huyuhao.myoj.context.UserContext;
 import space.huyuhao.myoj.service.UserService;
 import space.huyuhao.myoj.common.ResponseResult;
-import space.huyuhao.myoj.dto.UserInfoDto;
-import space.huyuhao.myoj.dto.UserLoginDto;
-import space.huyuhao.myoj.dto.UserRegisterDto;
+import space.huyuhao.myoj.entity.dto.UserInfoDto;
+import space.huyuhao.myoj.entity.dto.UserLoginDto;
+import space.huyuhao.myoj.entity.dto.UserRegisterDto;
 
 @RestController
 @RequestMapping("/user")

@@ -1,4 +1,4 @@
-package space.huyuhao.myoj.dto;
+package space.huyuhao.myoj.entity.dto;
 
 import lombok.Data;
 

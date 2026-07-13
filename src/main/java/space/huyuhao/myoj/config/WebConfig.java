@@ -15,6 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 添加JWT拦截器，排除登录、注册和健康检查接口
+        // 注意：判题系统（question/question_submit）的所有接口都需要登录才能访问
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/user/login",

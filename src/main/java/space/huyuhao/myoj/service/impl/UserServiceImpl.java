@@ -2,25 +2,30 @@ package space.huyuhao.myoj.service.impl;
 
 import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import space.huyuhao.myoj.common.ResponseResult;
+import space.huyuhao.myoj.constant.UserConstant;
 import space.huyuhao.myoj.constant.UserConstants;
-import space.huyuhao.myoj.dto.UserInfoDto;
-import space.huyuhao.myoj.dto.UserLoginDto;
-import space.huyuhao.myoj.dto.UserRegisterDto;
+import space.huyuhao.myoj.dto.UserVO;
+import space.huyuhao.myoj.entity.dto.UserInfoDto;
+import space.huyuhao.myoj.entity.dto.UserLoginDto;
+import space.huyuhao.myoj.entity.dto.UserRegisterDto;
 import space.huyuhao.myoj.entity.User;
-import space.huyuhao.myoj.service.UserService;
 import space.huyuhao.myoj.mapper.UserMapper;
+import space.huyuhao.myoj.service.UserService;
 import space.huyuhao.myoj.util.JwtUtil;
 
-
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User>
+        implements UserService {
 
     @Autowired
     private UserMapper userMapper;
@@ -115,6 +120,26 @@ public class UserServiceImpl implements UserService {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("email", email);
         return userMapper.selectCount(wrapper) > 0;
+    }
+
+    @Override
+    public UserVO getUserVO(User user) {
+        if (user == null) {
+            return null;
+        }
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
+        return userVO;
+    }
+
+    @Override
+    public List<User> listByIds(Collection<Long> userIds) {
+        return userMapper.selectBatchIds(userIds);
+    }
+
+    @Override
+    public boolean isAdmin(User user) {
+        return user != null && UserConstant.ADMIN_ROLE.equals(user.getRole());
     }
 
     private boolean isValidInviteCode(String inviteCode) {
