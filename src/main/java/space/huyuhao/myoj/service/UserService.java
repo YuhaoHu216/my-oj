@@ -9,9 +9,6 @@ import space.huyuhao.myoj.entity.dto.UserLoginDto;
 import space.huyuhao.myoj.entity.dto.UserRegisterDto;
 import space.huyuhao.myoj.entity.User;
 
-import java.util.Collection;
-import java.util.List;
-
 public interface UserService extends IService<User> {
     ResponseResult<String> register(UserRegisterDto userRegisterDto);
 
@@ -31,11 +28,6 @@ public interface UserService extends IService<User> {
      * 获取用户脱敏视图
      */
     UserVO getUserVO(User user);
-
-    /**
-     * 批量获取用户列表
-     */
-    List<User> listByIds(Collection<Long> userIds);
 
     /**
      * 判断是否为管理员

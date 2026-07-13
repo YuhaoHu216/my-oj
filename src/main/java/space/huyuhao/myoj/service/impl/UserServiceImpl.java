@@ -20,8 +20,6 @@ import space.huyuhao.myoj.service.UserService;
 import space.huyuhao.myoj.util.JwtUtil;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
@@ -130,11 +128,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(user, userVO);
         return userVO;
-    }
-
-    @Override
-    public List<User> listByIds(Collection<Long> userIds) {
-        return userMapper.selectBatchIds(userIds);
     }
 
     @Override
