@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import space.huyuhao.myoj.common.ErrorCode;
 import space.huyuhao.myoj.constant.CommonConstant;
@@ -17,6 +18,7 @@ import space.huyuhao.myoj.entity.enums.QuestionSubmitLanguageEnum;
 import space.huyuhao.myoj.entity.enums.QuestionSubmitStatusEnum;
 import space.huyuhao.myoj.entity.vo.QuestionSubmitVO;
 import space.huyuhao.myoj.exception.BusinessException;
+import space.huyuhao.myoj.judge.JudgeService;
 import space.huyuhao.myoj.mapper.QuestionSubmitMapper;
 import space.huyuhao.myoj.service.QuestionService;
 import space.huyuhao.myoj.service.QuestionSubmitService;
@@ -24,6 +26,7 @@ import space.huyuhao.myoj.service.UserService;
 import space.huyuhao.myoj.utils.SqlUtils;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -38,6 +41,10 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    @Lazy
+    private JudgeService judgeService;
 
     @Override
     public long doQuestionSubmit(QuestionSubmitAddRequest questionSubmitAddRequest, User loginUser) {
@@ -63,7 +70,12 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (!save) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "数据插入失败");
         }
-        return questionSubmit.getId();
+        Long questionSubmitId = questionSubmit.getId();
+        // 执行判题服务
+        CompletableFuture.runAsync(() -> {
+            judgeService.doJudge(questionSubmitId);
+        });
+        return questionSubmitId;
     }
 
     @Override
