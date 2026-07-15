@@ -12,12 +12,17 @@ import space.huyuhao.myoj.common.ResponseResult;
 import space.huyuhao.myoj.constant.UserConstant;
 import space.huyuhao.myoj.context.UserContext;
 import space.huyuhao.myoj.entity.Question;
+import space.huyuhao.myoj.entity.QuestionSubmit;
 import space.huyuhao.myoj.entity.User;
 import space.huyuhao.myoj.entity.dto.question.*;
+import space.huyuhao.myoj.entity.dto.questionsubmit.QuestionSubmitAddRequest;
+import space.huyuhao.myoj.entity.dto.questionsubmit.QuestionSubmitQueryRequest;
+import space.huyuhao.myoj.entity.vo.QuestionSubmitVO;
 import space.huyuhao.myoj.entity.vo.QuestionVO;
 import space.huyuhao.myoj.exception.BusinessException;
 import space.huyuhao.myoj.exception.ThrowUtils;
 import space.huyuhao.myoj.service.QuestionService;
+import space.huyuhao.myoj.service.QuestionSubmitService;
 import space.huyuhao.myoj.service.UserService;
 
 import java.util.List;
@@ -34,6 +39,9 @@ public class QuestionController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private QuestionSubmitService questionSubmitService;
 
     /**
      * 创建
@@ -208,5 +216,33 @@ public class QuestionController {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         return ResponseResult.success(questionService.updateById(question));
+    }
+
+    /**
+     * 提交题目
+     */
+    @PostMapping("/question_submit/do")
+    public ResponseResult<Long> doQuestionSubmit(
+            @RequestBody QuestionSubmitAddRequest questionSubmitAddRequest) {
+        if (questionSubmitAddRequest == null || questionSubmitAddRequest.getQuestionId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        final User loginUser = userService.getById(UserContext.getUserId());
+        long questionSubmitId = questionSubmitService.doQuestionSubmit(questionSubmitAddRequest, loginUser);
+        return ResponseResult.success(questionSubmitId);
+    }
+
+    /**
+     * 分页获取题目提交列表（脱敏）
+     */
+    @PostMapping("/question_submit/list/page")
+    public ResponseResult<Page<QuestionSubmitVO>> listQuestionSubmitByPage(
+            @RequestBody QuestionSubmitQueryRequest questionSubmitQueryRequest) {
+        long current = questionSubmitQueryRequest.getCurrent();
+        long size = questionSubmitQueryRequest.getPageSize();
+        Page<QuestionSubmit> questionSubmitPage = questionSubmitService.page(new Page<>(current, size),
+                questionSubmitService.getQueryWrapper(questionSubmitQueryRequest));
+        final User loginUser = userService.getById(UserContext.getUserId());
+        return ResponseResult.success(questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage, loginUser));
     }
 }

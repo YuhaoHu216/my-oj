@@ -17,9 +17,12 @@ import space.huyuhao.myoj.service.UserService;
 
 /**
  * 题目提交接口
+ *
+ * @deprecated 请使用 {@link QuestionController} 中的提交接口
  */
+@Deprecated
 @RestController
-@RequestMapping("/question_submit")
+//@RequestMapping("/question_submit")
 public class QuestionSubmitController {
 
     @Autowired
@@ -28,31 +31,31 @@ public class QuestionSubmitController {
     @Autowired
     private UserService userService;
 
-    /**
-     * 提交题目
-     */
-    @PostMapping("/")
-    public ResponseResult<Long> doQuestionSubmit(
-            @RequestBody QuestionSubmitAddRequest questionSubmitAddRequest) {
-        if (questionSubmitAddRequest == null || questionSubmitAddRequest.getQuestionId() <= 0) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-        }
-        final User loginUser = userService.getById(UserContext.getUserId());
-        long questionSubmitId = questionSubmitService.doQuestionSubmit(questionSubmitAddRequest, loginUser);
-        return ResponseResult.success(questionSubmitId);
-    }
-
-    /**
-     * 分页获取题目提交列表（脱敏）
-     */
-    @PostMapping("/list/page")
-    public ResponseResult<Page<QuestionSubmitVO>> listQuestionSubmitByPage(
-            @RequestBody QuestionSubmitQueryRequest questionSubmitQueryRequest) {
-        long current = questionSubmitQueryRequest.getCurrent();
-        long size = questionSubmitQueryRequest.getPageSize();
-        Page<QuestionSubmit> questionSubmitPage = questionSubmitService.page(new Page<>(current, size),
-                questionSubmitService.getQueryWrapper(questionSubmitQueryRequest));
-        final User loginUser = userService.getById(UserContext.getUserId());
-        return ResponseResult.success(questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage, loginUser));
-    }
+//    /**
+//     * 提交题目
+//     */
+//    @PostMapping("/")
+//    public ResponseResult<Long> doQuestionSubmit(
+//            @RequestBody QuestionSubmitAddRequest questionSubmitAddRequest) {
+//        if (questionSubmitAddRequest == null || questionSubmitAddRequest.getQuestionId() <= 0) {
+//            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+//        }
+//        final User loginUser = userService.getById(UserContext.getUserId());
+//        long questionSubmitId = questionSubmitService.doQuestionSubmit(questionSubmitAddRequest, loginUser);
+//        return ResponseResult.success(questionSubmitId);
+//    }
+//
+//    /**
+//     * 分页获取题目提交列表（脱敏）
+//     */
+//    @PostMapping("/list/page")
+//    public ResponseResult<Page<QuestionSubmitVO>> listQuestionSubmitByPage(
+//            @RequestBody QuestionSubmitQueryRequest questionSubmitQueryRequest) {
+//        long current = questionSubmitQueryRequest.getCurrent();
+//        long size = questionSubmitQueryRequest.getPageSize();
+//        Page<QuestionSubmit> questionSubmitPage = questionSubmitService.page(new Page<>(current, size),
+//                questionSubmitService.getQueryWrapper(questionSubmitQueryRequest));
+//        final User loginUser = userService.getById(UserContext.getUserId());
+//        return ResponseResult.success(questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage, loginUser));
+//    }
 }
