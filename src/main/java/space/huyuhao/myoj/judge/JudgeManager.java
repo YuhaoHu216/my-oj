@@ -2,7 +2,7 @@ package space.huyuhao.myoj.judge;
 
 import org.springframework.stereotype.Service;
 import space.huyuhao.myoj.entity.QuestionSubmit;
-import space.huyuhao.myoj.entity.dto.questionsubmit.JudgeInfo;
+import space.huyuhao.myoj.judge.codesandbox.model.JudgeInfo;
 import space.huyuhao.myoj.judge.strategy.DefaultJudgeStrategy;
 import space.huyuhao.myoj.judge.strategy.JavaLanguageJudgeStrategy;
 import space.huyuhao.myoj.judge.strategy.JudgeContext;

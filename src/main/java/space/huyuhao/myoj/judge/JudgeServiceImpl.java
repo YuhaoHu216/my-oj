@@ -8,7 +8,7 @@ import space.huyuhao.myoj.common.ErrorCode;
 import space.huyuhao.myoj.entity.Question;
 import space.huyuhao.myoj.entity.QuestionSubmit;
 import space.huyuhao.myoj.entity.dto.question.JudgeCase;
-import space.huyuhao.myoj.entity.dto.questionsubmit.JudgeInfo;
+import space.huyuhao.myoj.judge.codesandbox.model.JudgeInfo;
 import space.huyuhao.myoj.entity.enums.QuestionSubmitStatusEnum;
 import space.huyuhao.myoj.exception.BusinessException;
 import space.huyuhao.myoj.judge.codesandbox.CodeSandbox;

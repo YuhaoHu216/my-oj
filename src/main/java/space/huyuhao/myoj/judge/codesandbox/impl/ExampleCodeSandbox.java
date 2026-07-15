@@ -1,7 +1,7 @@
 package space.huyuhao.myoj.judge.codesandbox.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import space.huyuhao.myoj.entity.dto.questionsubmit.JudgeInfo;
+import space.huyuhao.myoj.judge.codesandbox.model.JudgeInfo;
 import space.huyuhao.myoj.entity.enums.JudgeInfoMessageEnum;
 import space.huyuhao.myoj.entity.enums.QuestionSubmitStatusEnum;
 import space.huyuhao.myoj.judge.codesandbox.CodeSandbox;

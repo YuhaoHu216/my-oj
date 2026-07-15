@@ -4,10 +4,11 @@ import cn.hutool.json.JSONUtil;
 import space.huyuhao.myoj.entity.Question;
 import space.huyuhao.myoj.entity.dto.question.JudgeCase;
 import space.huyuhao.myoj.entity.dto.question.JudgeConfig;
-import space.huyuhao.myoj.entity.dto.questionsubmit.JudgeInfo;
+import space.huyuhao.myoj.judge.codesandbox.model.JudgeInfo;
 import space.huyuhao.myoj.entity.enums.JudgeInfoMessageEnum;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Java 程序的判题策略
@@ -22,8 +23,8 @@ public class JavaLanguageJudgeStrategy implements JudgeStrategy {
     @Override
     public JudgeInfo doJudge(JudgeContext judgeContext) {
         JudgeInfo judgeInfo = judgeContext.getJudgeInfo();
-        Long memory = judgeInfo.getMemory();
-        Long time = judgeInfo.getTime();
+        Long memory = Optional.ofNullable(judgeInfo.getMemory()).orElse(0L);
+        Long time = Optional.ofNullable(judgeInfo.getTime()).orElse(0L);
         List<String> inputList = judgeContext.getInputList();
         List<String> outputList = judgeContext.getOutputList();
         Question question = judgeContext.getQuestion();

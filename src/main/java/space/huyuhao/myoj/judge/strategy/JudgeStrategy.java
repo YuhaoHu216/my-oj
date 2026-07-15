@@ -1,6 +1,6 @@
 package space.huyuhao.myoj.judge.strategy;
 
-import space.huyuhao.myoj.entity.dto.questionsubmit.JudgeInfo;
+import space.huyuhao.myoj.judge.codesandbox.model.JudgeInfo;
 
 /**
  * 判题策略

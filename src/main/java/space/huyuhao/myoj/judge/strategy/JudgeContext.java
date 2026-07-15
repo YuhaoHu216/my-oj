@@ -4,7 +4,7 @@ import lombok.Data;
 import space.huyuhao.myoj.entity.Question;
 import space.huyuhao.myoj.entity.QuestionSubmit;
 import space.huyuhao.myoj.entity.dto.question.JudgeCase;
-import space.huyuhao.myoj.entity.dto.questionsubmit.JudgeInfo;
+import space.huyuhao.myoj.judge.codesandbox.model.JudgeInfo;
 
 import java.util.List;
 

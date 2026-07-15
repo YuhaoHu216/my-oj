@@ -5,7 +5,7 @@ import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import space.huyuhao.myoj.dto.UserVO;
 import space.huyuhao.myoj.entity.QuestionSubmit;
-import space.huyuhao.myoj.entity.dto.questionsubmit.JudgeInfo;
+import space.huyuhao.myoj.judge.codesandbox.model.JudgeInfo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package space.huyuhao.myoj.entity.dto.questionsubmit;
+package space.huyuhao.myoj.judge.codesandbox.model;
 
 import lombok.Data;
 

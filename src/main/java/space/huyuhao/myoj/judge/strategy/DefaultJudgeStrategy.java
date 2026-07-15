@@ -4,7 +4,7 @@ import cn.hutool.json.JSONUtil;
 import space.huyuhao.myoj.entity.Question;
 import space.huyuhao.myoj.entity.dto.question.JudgeCase;
 import space.huyuhao.myoj.entity.dto.question.JudgeConfig;
-import space.huyuhao.myoj.entity.dto.questionsubmit.JudgeInfo;
+import space.huyuhao.myoj.judge.codesandbox.model.JudgeInfo;
 import space.huyuhao.myoj.entity.enums.JudgeInfoMessageEnum;
 
 import java.util.List;
