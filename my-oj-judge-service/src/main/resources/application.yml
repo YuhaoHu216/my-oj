@@ -1,0 +1,16 @@
+server:
+  port: 8104
+  servlet:
+    context-path: /api/judge
+
+spring:
+  application:
+    name: my-oj-judge-service
+  rabbitmq:
+    host: localhost
+    port: 5672
+    password: guest
+    username: guest
+
+codesandbox:
+  type: remote

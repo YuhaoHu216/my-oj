@@ -1,0 +1,32 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      routes:
+        - id: my-oj-user-service
+          uri: lb://my-oj-user-service
+          predicates:
+            - Path=/api/user/**
+        - id: my-oj-question-service
+          uri: lb://my-oj-question-service
+          predicates:
+            - Path=/api/question/**
+        - id: my-oj-judge-service
+          uri: lb://my-oj-judge-service
+          predicates:
+            - Path=/api/judge/**
+  application:
+    name: my-oj-gateway
+  main:
+    web-application-type: reactive
+server:
+  port: 8101
+knife4j:
+  gateway:
+    enabled: true
+    strategy: discover
+    discover:
+      enabled: true
+      version: swagger2
