@@ -11,7 +11,7 @@ public class ThirdPartyCodeSandbox implements CodeSandbox {
 
     @Override
     public ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) {
-        System.out.println("第三方代码沙箱");
+        System.out.println("第三方代码沙箱，暂未实现。敬请期待");
         return null;
     }
 }
