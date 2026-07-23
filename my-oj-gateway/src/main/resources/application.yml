@@ -8,28 +8,69 @@ spring:
         server-addr: 127.0.0.1:8848
     gateway:
       routes:
+        # API 文档路由（精确匹配，不使用 StripPrefix，避免截断文档路径）
+        - id: my-oj-user-service-api-docs
+          uri: lb://my-oj-user-service
+          predicates:
+            - Path=/api/user/v2/api-docs
+          filters:
+            - RewritePath=/api/user/v2/api-docs, /v2/api-docs
+        - id: my-oj-question-service-api-docs
+          uri: lb://my-oj-question-service
+          predicates:
+            - Path=/api/question/v2/api-docs
+          filters:
+            - RewritePath=/api/question/v2/api-docs, /v2/api-docs
+        - id: my-oj-judge-service-api-docs
+          uri: lb://my-oj-judge-service
+          predicates:
+            - Path=/api/judge/v2/api-docs
+          filters:
+            - RewritePath=/api/judge/v2/api-docs, /v2/api-docs
+        # 业务路由（StripPrefix 去掉 /api 统一前缀）
         - id: my-oj-user-service
           uri: lb://my-oj-user-service
           predicates:
             - Path=/api/user/**
+          filters:
+            - StripPrefix=1
         - id: my-oj-question-service
           uri: lb://my-oj-question-service
           predicates:
             - Path=/api/question/**
+          filters:
+            - StripPrefix=1
         - id: my-oj-judge-service
           uri: lb://my-oj-judge-service
           predicates:
             - Path=/api/judge/**
+          filters:
+            - StripPrefix=1
   application:
     name: my-oj-gateway
   main:
     web-application-type: reactive
 server:
   port: 8101
+jwt:
+  secret: mySecretKeyForDemoPurposeOnlyAndShouldBeChangedInProduction
+  expiration: 36000
 knife4j:
   gateway:
     enabled: true
-    strategy: discover
-    discover:
-      enabled: true
-      version: swagger2
+    routes:
+      - name: 用户服务
+        service-name: my-oj-user-service
+        url: /api/user/v2/api-docs?group=default
+        context-path: /api
+        order: 1
+      - name: 题目服务
+        service-name: my-oj-question-service
+        url: /api/question/v2/api-docs?group=default
+        context-path: /api
+        order: 2
+      - name: 判题服务
+        service-name: my-oj-judge-service
+        url: /api/judge/v2/api-docs?group=default
+        context-path: /api
+        order: 3

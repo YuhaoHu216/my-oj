@@ -1,5 +1,8 @@
 package space.huyuhao.myojgateway.filter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+import space.huyuhao.myojcommon.utils.JwtUtil;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -19,11 +23,17 @@ import java.util.List;
 
 /**
  * 全局鉴权过滤器
+ * 在 Gateway 层统一解析 JWT，将用户信息通过 Header 传递给下游微服务
  */
 @Component
 public class GlobalAuthFilter implements GlobalFilter, Ordered {
 
+    private static final Logger log = LoggerFactory.getLogger(GlobalAuthFilter.class);
+
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     /**
      * 不需要登录的路径
@@ -54,10 +64,49 @@ public class GlobalAuthFilter implements GlobalFilter, Ordered {
             }
         }
 
-        // 检查是否登录（通过 Cookie/Header 中的 Session）
-        // 由于 Gateway 是 Reactive 模式，此处做基本的 Cookie 检查
-        // 详细的鉴权由各微服务的 AuthInterceptor 处理
-        return chain.filter(exchange);
+        // 解析 JWT Token
+        String token = extractToken(request);
+        if (token == null || !jwtUtil.validateToken(token)) {
+            // 未登录或 token 无效，返回 401
+            ServerHttpResponse response = exchange.getResponse();
+            response.setStatusCode(HttpStatus.UNAUTHORIZED);
+            response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
+            DataBufferFactory bufferFactory = response.bufferFactory();
+            DataBuffer buffer = bufferFactory.wrap(
+                    "{\"code\":401,\"message\":\"未登录或登录已过期\"}".getBytes(StandardCharsets.UTF_8));
+            return response.writeWith(Mono.just(buffer));
+        }
+
+        // 从 Token 中提取用户信息
+        Long userId = jwtUtil.getUserIdFromToken(token);
+        String username = jwtUtil.getUsernameFromToken(token);
+
+        // 将用户信息通过 Header 传递给下游微服务
+        ServerHttpRequest modifiedRequest = request.mutate()
+                .header("X-User-Id", userId != null ? userId.toString() : "")
+                .header("X-Username", username != null ? username : "")
+                .build();
+
+        return chain.filter(exchange.mutate().request(modifiedRequest).build());
+    }
+
+    /**
+     * 从请求中提取 JWT Token
+     */
+    private String extractToken(ServerHttpRequest request) {
+        // 优先从 Authorization Header 获取
+        String authHeader = request.getHeaders().getFirst("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7);
+        }
+
+        // 其次从请求参数中获取
+        String tokenParam = request.getQueryParams().getFirst("token");
+        if (tokenParam != null) {
+            return tokenParam;
+        }
+
+        return null;
     }
 
     @Override
