@@ -17,7 +17,7 @@ import space.huyuhao.myojmodel.model.dto.UserRegisterDto;
 import space.huyuhao.myojmodel.model.vo.UserVO;
 import space.huyuhao.myojuser.mapper.UserMapper;
 import space.huyuhao.myojuser.service.UserService;
-import space.huyuhao.myojuser.utils.JwtUtil;
+import space.huyuhao.myojcommon.utils.JwtUtil;
 
 import java.time.LocalDateTime;
 

@@ -1,4 +1,4 @@
-package space.huyuhao.myojuser.utils;
+package space.huyuhao.myojcommon.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
