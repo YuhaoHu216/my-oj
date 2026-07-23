@@ -13,7 +13,7 @@ import javax.annotation.Resource;
  * 题目内部 Feign 接口
  */
 @RestController
-@RequestMapping("/inner")
+@RequestMapping("/api/question/inner")
 public class QuestionInnerController implements QuestionFeignClient {
 
     @Resource

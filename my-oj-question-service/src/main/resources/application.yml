@@ -9,7 +9,7 @@ spring:
     timeout: 2592000
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/myoj
+    url: jdbc:mysql://localhost:3306/my_oj
     username: root
     password: Zf9@Qv7!Lm2Xc8$HpT8+rK!2pWq9@Vx6$Mn
   redis:
@@ -30,8 +30,8 @@ spring:
 server:
   address: 0.0.0.0
   port: 8103
+  forward-headers-strategy: NONE
   servlet:
-    context-path: /api/question
     session:
       cookie:
         max-age: 2592000

@@ -14,7 +14,7 @@ import javax.annotation.Resource;
  * 判题服务内部接口（供 Feign 调用）
  */
 @RestController
-@RequestMapping("/inner")
+@RequestMapping("/api/judge/inner")
 public class JudgeInnerController implements JudgeFeignClient {
 
     @Resource
